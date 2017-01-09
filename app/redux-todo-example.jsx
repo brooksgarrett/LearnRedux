@@ -20,13 +20,39 @@ var reducer = (state = defaultState, action) => {
     }
 };
 
-var store = redux.createStore(reducer);
+var store = redux.createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
-console.log('currentState', store.getState());
+// Subscribe to changes
+var unsubscribe = store.subscribe(() => {
+    var state = store.getState();
+    document.getElementById('main').innerHTML = `<h1>${state.searchText}</h1>`;
+});
+
+
+
+
+
+// How to unsubscribe
+// unsubscribe();
 
 store.dispatch({
     type: 'CHANGE_SEARCHTEXT',
     searchText: 'work'
 });
 
-console.log('postDispatch', store.getState());
+store.dispatch({
+    type: 'CHANGE_SEARCHTEXT',
+    searchText: 'stuff'
+});
+
+store.dispatch({
+    type: 'CHANGE_SEARCHTEXT',
+    searchText: 'nope'
+});
+
+console.log('After unsub', store.getState());
+
+store.dispatch({
+    type: 'CHANGE_SEARCHTEXT',
+    searchText: 'things'
+});

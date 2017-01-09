@@ -8,8 +8,11 @@ require('style!css!sass!ApplicationStyles');
 $(document).foundation();
 
 ReactDOM.render(
-    <p>BoilerPlate</p>,
+    <div id="main">
+        <p>BoilerPlate</p>
+    </div>,
     document.getElementById('app')
 );
 
 require('./redux-todo-example.jsx');
+//require('./redux-example.jsx');
