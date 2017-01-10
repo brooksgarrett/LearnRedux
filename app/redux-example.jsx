@@ -2,15 +2,11 @@ var redux = require('redux');
 
 console.log('Starting redux example');
 
-var defaultState = {
-    name: 'Anonymous',
-    hobbies: [],
-    movies: []
-};
-
 var nextHobbyId, nextMovieId;
 nextHobbyId = nextMovieId = 1;
 
+// Name reducer and action generators
+// ----------------------------------
 var nameReducer = (state = 'Anonymous', action) => {
     switch (action.type) {
         case 'CHANGE_NAME':
@@ -20,6 +16,15 @@ var nameReducer = (state = 'Anonymous', action) => {
     }
 };
 
+var changeName = (name) => {
+    return {
+        type: 'CHANGE_NAME',
+        name
+    }
+};
+
+// Hobbies reducer and action generators
+// -------------------------------------
 var hobbiesReducer = (state = [], action) => {
     switch (action.type) {
         case 'ADD_HOBBY':
@@ -39,6 +44,22 @@ var hobbiesReducer = (state = [], action) => {
     }
 };
 
+var addHobby = (hobby) => {
+    return {
+        type: 'ADD_HOBBY',
+        hobby
+    }
+};
+
+var removeHobby = (id) => {
+    return {
+        type: 'REMOVE_HOBBY',
+        id
+    }
+};
+
+// Movies reducer and action generators
+// -------------------------------------
 var moviesReducer = (state = [], action) => {
     switch (action.type){
         case 'ADD_MOVIE':
@@ -54,6 +75,21 @@ var moviesReducer = (state = [], action) => {
             return state.filter((movie) => movie.id !== action.id );
         default:
             return state;
+    }
+};
+
+var addMovie = (title, genre) => {
+    return {
+        type: 'ADD_MOVIE',
+        title,
+        genre
+    }
+};
+
+var removeMovie = (id) => {
+    return {
+        type: 'REMOVE_MOVIE',
+        id
     }
 };
 
@@ -76,31 +112,21 @@ var unsubscribe = store.subscribe(() => {
 
 
 // Example Dispatches
-store.dispatch({
-    type: 'CHANGE_NAME',
-    name: 'Brooks'
-});
+store.dispatch(changeName('Brooks'));
 
 store.dispatch({
     type: 'CHANGE_NAME',
     name: 'Bill'
 });
 
-store.dispatch({
-    type: 'ADD_HOBBY',
-    hobby: 'Rugby'
-});
+store.dispatch(addHobby('Rugby'));
 
 store.dispatch({
     type: 'ADD_HOBBY',
     hobby: 'Firefighting'
 });
 
-store.dispatch({
-    type: 'ADD_MOVIE',
-    title: 'The Towering Inferno',
-    Genre: 'Action'
-});
+store.dispatch(addMovie('The Towering Inferno', 'Action'));
 
 store.dispatch({
     type: 'ADD_MOVIE',
@@ -108,10 +134,7 @@ store.dispatch({
     Genre: 'Comedy'
 });
 
-store.dispatch({
-    type: 'REMOVE_HOBBY',
-    id: 2
-});
+store.dispatch(removeHobby(2));
 
 store.dispatch({
     type: 'REMOVE_MOVIE',
